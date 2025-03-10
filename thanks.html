@@ -115,6 +115,32 @@
 <script>
 open_close("menubar_hdr", "menubar-s");
 </script>
+<script type="text/javascript">
 
+    ire('trackConversion', 54694, {           
+              orderId: "oid-123",     
+              customProfileId: "aaa",        
+              customerId: "uid-123",           
+              customerEmail: "abc",            
+              customerStatus: "New",            
+              orderPromoCode: "promo-123",            
+              currencyCode: JPY,           
+              items: [                  
+                     {                                
+                            subTotal: 100.00,                                
+                            category: "category-1",                                
+                            sku: "SKU-1",                                
+                            quantity: 2                   
+                      },                
+                      {                                  
+                            subTotal: 50.00,                                 
+                            category: "Category-2",                                 
+                            sku: "SKU-2",                                 
+                            quantity: 1                
+                       }          
+                    ]
+                },                   
+    {verifySiteDefinitionMatch:true});
+    </script>
 </body>
 </html>
