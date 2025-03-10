@@ -1,0 +1,24 @@
+<html>
+
+<body>
+  <script>
+    console.log("test")
+    navigator.serviceWorker.register('/ec/demo_ec/service_worker_test.js')
+      .then(function (reg) {
+        console.log('success ' + reg.scope);
+      }).catch(function (error) {
+        console.log('failure' + error);
+      });
+  </script>
+  <p>Test</p>
+  <!--52006410-->
+  <script>(function (w, d, t, r, u) { var f, n, i; w[u] = w[u] || [], f = function () { var o = { ti: "" }; o.q = w[u], w[u] = new UET(o), w[u].push("pageLoad") }, n = d.createElement(t), n.src = r, n.async = 1, n.onload = n.onreadystatechange = function () { var s = this.readyState; s && s !== "loaded" && s !== "complete" || (f(), n.onload = n.onreadystatechange = null) }, i = d.getElementsByTagName(t)[0], i.parentNode.insertBefore(n, i) })(window, document, "script", "//bat.bing.com/bat.js", "uetq");</script>
+
+  <!--
+  <script>window.uetq = window.uetq || [];
+    window.uetq.push('event', '', { 'ecomm_prodid': '123', 'ecomm_pagetype': 'purchase' });  
+  </script>
+-->
+</body>
+
+</html>
