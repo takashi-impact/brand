@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <script
+        type="text/javascript"> (function (a, b, c, d, e, f, g) { e['ire_o'] = c; e[c] = e[c] || function () { (e[c].a = e[c].a || []).push(arguments) }; f = d.createElement(b); g = d.getElementsByTagName(b)[0]; f.async = 1; f.src = a; g.parentNode.insertBefore(f, g); })('https://utt.impactcdn.com/A6108791-de00-46db-9400-014533654bf765535.js', 'script', 'ire', document, window); ire('identify', { customerid: 'cust-123' /*INSERT CUSTOMER ID*/, customeremail: '567159d622ffbb50b11b0efd307be358624a26ee' /*INSERT SHA1 HASHED CUSTOMER EMAIL*/ }); </script>
+
+</head>
+
+<body>
+    <p>Thank you for your purchase!</p>
+    <script type="text/javascript">
+
+        ire('trackConversion', 54694, {
+            orderId: "oid-123",
+            customProfileId: "aaa",
+            customerId: "cust-123",
+            customerEmail: "567159d622ffbb50b11b0efd307be358624a26ee",
+            customerStatus: "New",
+            orderPromoCode: "promo-123",
+            currencyCode: "JPY",
+            items: [
+                {
+                    subTotal: 100.00,
+                    category: "category-1",
+                    sku: "SKU-1",
+                    quantity: 2
+                },
+                {
+                    subTotal: 50.00,
+                    category: "Category-2",
+                    sku: "SKU-2",
+                    quantity: 1
+                }
+            ]
+        },
+            { verifySiteDefinitionMatch: true });
+    </script>
+</body>
+
+</html>
