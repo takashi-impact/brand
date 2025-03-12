@@ -123,8 +123,10 @@ open_close("menubar_hdr", "menubar-s");
             // `tags.html` のロード完了後に `trackConversion` を実行
             $(document).ready(function() {
                 if (typeof ire !== "undefined") {
+                    const randomOrderId = "oid-" + Math.floor(Math.random() * 1000000);
+
                     ire('trackConversion', 54694, {           
-                        orderId: "oid-123",     
+                        orderId: randomOrderId,     
                         customProfileId: "aaa",        
                         customerId: "uid-123",           
                         customerEmail: "test@example.com",            
