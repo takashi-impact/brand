@@ -123,10 +123,11 @@ open_close("menubar_hdr", "menubar-s");
             // `tags.html` のロード完了後に `trackConversion` を実行
             $(document).ready(function() {
                 if (typeof ire !== "undefined") {
-                    const randomOrderId = "oid-" + Math.floor(Math.random() * 1000000);
+                    const randomOrderIdSale = "oid-" + Math.floor(Math.random() * 1000000);
+                    const randomOrderIdLead = "oid-" + Math.floor(Math.random() * 1000000);
 
                     ire('trackConversion', 54694, {           
-                        orderId: randomOrderId,     
+                        orderId: randomOrderIdSale,     
                         customProfileId: "aaa",        
                         customerId: "uid-123",           
                         customerEmail: "test@example.com",            
@@ -134,10 +135,15 @@ open_close("menubar_hdr", "menubar-s");
                         orderPromoCode: "promo-123",            
                         currencyCode: "JPY",           
                         items: [                  
-                            { subTotal: 100.00, category: "category-1", sku: "SKU-1", quantity: 2 },                
-                            { subTotal: 50.00, category: "Category-2", sku: "SKU-2", quantity: 1 }          
+                            { subTotal: 100.00, category: "golf", sku: "golf-sku-123", quantity: 2 },                
+                            { subTotal: 50.00, category: "golf", sku: "golf-sku-567", quantity: 1 },
+                            { subTotal: 10.00, category: "others", sku: "others-sku-567", quantity: 1 }          
                         ]
                     }, {verifySiteDefinitionMatch:true});
+
+                    ire('trackConversion', 54795, {           
+                        orderId: randomOrderIdLead 
+                    }, {verifySiteDefinitionMatch:true});  
                 } else {
                     console.error("ire is not defined - script did not load properly.");
                 }
