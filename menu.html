@@ -146,6 +146,20 @@
 <script>
 open_close("menubar_hdr", "menubar-s");
 </script>
+<script>
+    $(function () {
+        $.get('tags.html', function (data) {
+            $("body").append(data);
 
+            // `tags.html` のロード完了後に `trackConversion` を実行
+            $(document).ready(function () {
+                if (typeof ire !== "undefined") {
+
+                    ire('identify', { customerid: 'cust-123' /*INSERT CUSTOMER ID*/, customeremail: '567159d622ffbb50b11b0efd307be358624a26ee' /*INSERT SHA1 HASHED CUSTOMER EMAIL*/ });
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
