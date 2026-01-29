@@ -3,9 +3,29 @@
 <head>
 
 <!-- Advocate -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.9.0/jsrsasign-all-min.js"></script>
 <script type="text/javascript"> (function(a,b,c,d,e,f,g){e['ire_o']=c;e[c]=e[c]||function(){(e[c].a=e[c].a||[]).push(arguments)};f=d.createElement(b);g=d.getElementsByTagName(b)[0];f.async=1;f.src=a;g.parentNode.insertBefore(f,g);})('https://impact.msademo.net/A6108791-de00-46db-9400-014533654bf765535.js','script','ire',document,window); ire('identify', {customerid: '' /*INSERT CUSTOMER ID*/, customeremail: '' /*INSERT SHA1 HASHED CUSTOMER EMAIL*/});
 </script>
 <script>
+    function generateImpactJWT(userId, accountSid, authToken) {
+        // Header
+        const oHeader = { alg: 'HS256', typ: 'JWT' };
+        
+        // Payload
+        const oPayload = {
+            sub: userId,        // User ID (customeridと同じ値にする必要があります)
+            iss: accountSid,    // Impact Account SID
+            iat: Math.floor(Date.now() / 1000) // 発行時刻
+        };
+
+        // 署名 (HS256)
+        const sHeader = JSON.stringify(oHeader);
+        const sPayload = JSON.stringify(oPayload);
+        
+        // jsrsasignを使って署名付きトークンを生成
+        return KJUR.jws.JWS.sign("HS256", sHeader, sPayload, authToken);
+    };
+
     // 1. When UTT is ready, run the following function.
     window.impactOnReady = function () {
       // 2. Make the request to retrieve referral information from the dropped cookie
@@ -43,9 +63,17 @@
       //    JWT's are tokens that are signed with your Auth Token. They must be generated server-side.
       //    To ensure the security of your program, do not expose your Auth Token or Account SID to your frontend
       //    For more information see https://integrations.impact.com/impact-brand/docs/json-web-tokens
+      const IMPACT_ACCOUNT_SID = 'IR37qk9K6nbZ6108791wKWEmgxr9v65535'; // ImpactのアカウントSID
+      const IMPACT_AUTH_TOKEN = 'cpAPoXp.kTrx.x2ducxjbgtskaE3Hdys';   // ImpactのAuth Token (秘密鍵)
+      
+      const myJwt = generateImpactJWT(id, IMPACT_ACCOUNT_SID, IMPACT_AUTH_TOKEN);
+
       const id = `user_${new Date().getTime()}`; // Unique ID based on timestamp
       const accountId = `account_${new Date().getTime()}`; // Unique Account ID based on timestamp
       const email = `user${new Date().getTime()}@example.com`; // Unique email based on timestamp
+      
+
+
       const userConfig = {
           // 2b. Add details about your user
           //  This must include id and account id but other fields such as email, first name, locale or even custom fields can be included
@@ -57,6 +85,7 @@
             accountId: accountId,       
             email: email,               
           },
+          jwt: myJwt 
       };
       // 3. Make the request to upsert your user.
       impact.api().upsertUser(userConfig).then(function(response) {
