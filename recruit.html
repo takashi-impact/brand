@@ -6,39 +6,7 @@
     (function(a,b,c,d,e,f,g){e['ire_o']=c;e[c]=e[c]||function(){(e[c].a=e[c].a||[]).push(arguments)};f=d.createElement(b);g=d.getElementsByTagName(b)[0];f.async=1;f.src=a;g.parentNode.insertBefore(f,g);})('https://impact.msademo.net/A6108791-de00-46db-9400-014533654bf765535.js','script','ire',document,window); 
     ire('identify', {customerid: '' /*INSERT CUSTOMER ID*/, customeremail: '' /*INSERT SHA1 HASHED CUSTOMER EMAIL*/});
   </script>
-  
-  <script>
-    // 1. When UTT is ready, run the following function.
-    window.impactOnReady = function(){
-      // 2. Configure UTT for your user and widget.
-      //  The information provided here is used to track your user and register them in Advocate
-      //  This request is authenticated via JWT
-      //  A note about generating JWTs:
-      //    JWT's are tokens that are signed with your Auth Token. They must be generated server-side.
-      //    To ensure the security of your program, do not expose your Auth Token or Account SID to your frontend
-      //    For more information see https://integrations.impact.com/impact-brand/docs/json-web-tokens
-      const userConfig = {
-          // 2b. Add details about your user
-          //  This must include id and account id but other fields such as email, first name, locale or even custom fields can be included
-          //  For more details and a list of user fields see https://integrations.impact.com/impact-brand/docs/install-the-utt
-          user: {                               
-            // SHA1 hashed emails can also be used for id and accountId fields
-            id: 'john@example.com',                      
-            accountId: 'john@example.com',       
-            email: 'john@example.com',               
-          },
-          jwt: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTc2OTY2NTE2MTA4NkBleGFtcGxlLmNvbSIsImlzcyI6IklSVzJVWjdSSHRQazYxMDg3OTF4OXE1V1FocWJXNjU1MzUiLCJpYXQiOjE3Njk2NjUxNjF9.64sYyOb31XsS0razakn0olvq5G48YhMMAFATwKuAc3g'
-      };
-      // 3. Make the request to upsert your user.
-      impact.api().upsertUser(userConfig).then(function(response) {
-          // The widget API automatically inserts the HTML for your widget into your page via an iFrame
-          // However if needed, you can retrieve details about the upserted user and the widget HTML through this function response
-          const user = response.user;
-      }).catch(function(error){
-          console.log(error);
-      });
-    };
-  </script>
+
   <script>    
     window.impactToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTc2OTY2NTE2MTA4NkBleGFtcGxlLmNvbSIsImlzcyI6IklSVzJVWjdSSHRQazYxMDg3OTF4OXE1V1FocWJXNjU1MzUiLCJpYXQiOjE3Njk2NjUxNjF9.64sYyOb31XsS0razakn0olvq5G48YhMMAFATwKuAc3g' 
   </script>
