@@ -5,11 +5,68 @@
 <!-- Advocate -->
 <script type="text/javascript"> (function(a,b,c,d,e,f,g){e['ire_o']=c;e[c]=e[c]||function(){(e[c].a=e[c].a||[]).push(arguments)};f=d.createElement(b);g=d.getElementsByTagName(b)[0];f.async=1;f.src=a;g.parentNode.insertBefore(f,g);})('https://impact.msademo.net/A6108791-de00-46db-9400-014533654bf765535.js','script','ire',document,window); ire('identify', {customerid: '' /*INSERT CUSTOMER ID*/, customeremail: '' /*INSERT SHA1 HASHED CUSTOMER EMAIL*/});
 </script>
-<script> 
-    window.impactToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IklSaXdYWXp6dHI0YzYxMDg3OTFUcDdoOG4yS1ppNjU1MzUifQ.eyJ1c2VyIjp7ImlkIjoidGVzdHVzZXIiLCJhY2NvdW50SWQiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdHVzZXJAZXhhbXBsZS5jb20ifX0.1W2IZglOwM9t_YhP0gBy7m85Bb36MVZUD7EkiOLFCgo";
-  </script> 
+<script>
+    // 1. When UTT is ready, run the following function.
+    window.impactOnReady = function () {
+      // 2. Make the request to retrieve referral information from the dropped cookie
+      //  Cookies are dropped after a user clicks on a sharelink
+      //  This cookie includes important referral information such as the referrer's referral code
+      //  To read more on our referral cookies see https://integrations.impact.com/impact-brand/docs/tracking-cookies-for-advocate-programs
+      impact
+      .api()
+      .referralCookie()
+      .then(function (response) {
+        // 3. Adding a short wait helps to insure that the value is properly set in the form
+        const waitForElement = setInterval(function () {
+    
+          // 4. Retrieve the element you want to auto-fill the referral code into from the DOM.
+          const el = document.getElementsByName("impact_referralcookies");
+    
+          if (el.length) {
+            clearInterval(waitForElement);
+    
+            // 5. Set the value of the form field to be the participants referral cookie
+            el[0].value = response.encodedCookie;
+          }
+        }, 100);
+      });
+    };
+    </script>
 
-
+<script>
+    // 1. When UTT is ready, run the following function.
+    window.impactOnReady = function(){
+      // 2. Configure UTT for your user and widget.
+      //  The information provided here is used to track your user and register them in Advocate
+      //  This request is authenticated via JWT
+      //  A note about generating JWTs:
+      //    JWT's are tokens that are signed with your Auth Token. They must be generated server-side.
+      //    To ensure the security of your program, do not expose your Auth Token or Account SID to your frontend
+      //    For more information see https://integrations.impact.com/impact-brand/docs/json-web-tokens
+      const userConfig = {
+          // 2b. Add details about your user
+          //  This must include id and account id but other fields such as email, first name, locale or even custom fields can be included
+          //  For more details and a list of user fields see https://integrations.impact.com/impact-brand/docs/install-the-utt
+        id: `user_${new Date().getTime()}`, // Unique ID based on timestamp
+        accountId: `account_${new Date().getTime()}`, // Unique Account ID based on timestamp
+        email: `user${new Date().getTime()}@example.com`, // Unique email based on timestamp
+          user: {                               
+            // SHA1 hashed emails can also be used for id and accountId fields
+            id: id,                      
+            accountId: accountId,       
+            email: email,               
+          },
+      };
+      // 3. Make the request to upsert your user.
+      impact.api().upsertUser(userConfig).then(function(response) {
+          // The widget API automatically inserts the HTML for your widget into your page via an iFrame
+          // However if needed, you can retrieve details about the upserted user and the widget HTML through this function response
+          const user = response.user;
+      }).catch(function(error){
+          console.log(error);
+      });
+    };
+  </script>
 <!-- /Advocate -->
       
 
