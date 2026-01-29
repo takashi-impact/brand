@@ -73,13 +73,14 @@
       //    JWT's are tokens that are signed with your Auth Token. They must be generated server-side.
       //    To ensure the security of your program, do not expose your Auth Token or Account SID to your frontend
       //    For more information see https://integrations.impact.com/impact-brand/docs/json-web-tokens
+      const id = `user_${new Date().getTime()}`; // Unique ID based on timestamp
+      const accountId = `account_${new Date().getTime()}`; // Unique Account ID based on timestamp
+      const email = `user${new Date().getTime()}@example.com`; // Unique email based on timestamp
       const userConfig = {
           // 2b. Add details about your user
           //  This must include id and account id but other fields such as email, first name, locale or even custom fields can be included
           //  For more details and a list of user fields see https://integrations.impact.com/impact-brand/docs/install-the-utt
-        id: `user_${new Date().getTime()}`, // Unique ID based on timestamp
-        accountId: `account_${new Date().getTime()}`, // Unique Account ID based on timestamp
-        email: `user${new Date().getTime()}@example.com`, // Unique email based on timestamp
+        
           user: {                               
             // SHA1 hashed emails can also be used for id and accountId fields
             id: id,                      
