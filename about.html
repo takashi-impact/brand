@@ -31,6 +31,73 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
+
+
+<script type="text/javascript"> (function(a,b,c,d,e,f,g){e['ire_o']=c;e[c]=e[c]||function(){(e[c].a=e[c].a||[]).push(arguments)};f=d.createElement(b);g=d.getElementsByTagName(b)[0];f.async=1;f.src=a;g.parentNode.insertBefore(f,g);})('https://impact.msademo.net/A6108791-de00-46db-9400-014533654bf765535.js','script','ire',document,window); ire('identify', {customerid: '' /*INSERT CUSTOMER ID*/, customeremail: '' /*INSERT SHA1 HASHED CUSTOMER EMAIL*/});
+</script>
+<script>
+    // 1. When UTT is ready, run the following function.
+    window.impactOnReady = function () {
+      // 2. Make the request to retrieve referral information from the dropped cookie
+      //  Cookies are dropped after a user clicks on a sharelink
+      //  This cookie includes important referral information such as the referrer's referral code
+      //  To read more on our referral cookies see https://integrations.impact.com/impact-brand/docs/tracking-cookies-for-advocate-programs
+      impact
+      .api()
+      .referralCookie()
+      .then(function (response) {
+        // 3. Adding a short wait helps to insure that the value is properly set in the form
+        const waitForElement = setInterval(function () {
+    
+          // 4. Retrieve the element you want to auto-fill the referral code into from the DOM.
+          const el = document.getElementsByName("impact_referralcookies");
+    
+          if (el.length) {
+            clearInterval(waitForElement);
+    
+            // 5. Set the value of the form field to be the participants referral cookie
+            el[0].value = response.encodedCookie;
+          }
+        }, 100);
+      });
+    };
+    </script>
+
+<script>
+    // 1. When UTT is ready, run the following function.
+    window.impactOnReady = function(){
+      // 2. Configure UTT for your user and widget.
+      //  The information provided here is used to track your user and register them in Advocate
+      //  This request is authenticated via JWT
+      //  A note about generating JWTs:
+      //    JWT's are tokens that are signed with your Auth Token. They must be generated server-side.
+      //    To ensure the security of your program, do not expose your Auth Token or Account SID to your frontend
+      //    For more information see https://integrations.impact.com/impact-brand/docs/json-web-tokens
+      const userConfig = {
+          // 2b. Add details about your user
+          //  This must include id and account id but other fields such as email, first name, locale or even custom fields can be included
+          //  For more details and a list of user fields see https://integrations.impact.com/impact-brand/docs/install-the-utt
+        id: `user_${new Date().getTime()}`, // Unique ID based on timestamp
+        accountId: `account_${new Date().getTime()}`, // Unique Account ID based on timestamp
+        email: `user${new Date().getTime()}@example.com`, // Unique email based on timestamp
+          user: {                               
+            // SHA1 hashed emails can also be used for id and accountId fields
+            id: id,                      
+            accountId: accountId,       
+            email: email,               
+          },
+      };
+      // 3. Make the request to upsert your user.
+      impact.api().upsertUser(userConfig).then(function(response) {
+          // The widget API automatically inserts the HTML for your widget into your page via an iFrame
+          // However if needed, you can retrieve details about the upserted user and the widget HTML through this function response
+          const user = response.user;
+      }).catch(function(error){
+          console.log(error);
+      });
+    };
+  </script>
+
 </head>
 
 <body class="bg2">
@@ -120,102 +187,8 @@ media=&quot; (～)&quot;の「～」部分でcssを切り替えるディスプ�
 
 <section>
 
-<h2>当テンプレートの使い方</h2>
-
-<h3>初心者向けマニュアル公開中</h3>
-<p>画像加工やテンプレートの編集方法、無料サーバーを使ってサイトを公開するなど動画をまじえてわかりやすく解説しています。<br>
-<a href="https://template-party.com/file/" target="_blank">初心者向けマニュアルはこちら。</a></p>
-
-<h3>注意：当テンプレートにはメインメニューが「２箇所」入っています</h3>
-<p>パソコンなどの大きな端末「menubar（幅901px以上）」向けと、タブレットやスマホなどの小さな端末「menubar-s（幅900px以下）」向けがそれぞれ入っています。大きな端末向けは編集ソフトで見れると思いますが、小さな端末向けは見えないと思いますのでhtml側で編集して下さい。</p>
-
-<h3>titleタグ、copyright、metaタグ、他の設定</h3>
-<p><strong class="color1">titleタグの設定はとても重要です。念入りにワードを選んで適切に入力しましょう。</strong><br>
-まず、htmlソースが見れる状態にして、<br>
-<span class="look">&lt;title&gt;ケーキショップ向け 無料ホームページテンプレート tp_cute2&lt;/title&gt;</span><br>
-を編集しましょう。<br>
-あなたのホームページ名が「Macarron Shop」だとすれば、<br>
-<span class="look">&lt;title&gt;Macarron Shop&lt;/title&gt;</span><br>
-とすればＯＫです。SEO対策もするなら冒頭に重要なワードを入れておきましょう。</p>
-<p><strong class="color1">copyrightを変更しましょう。</strong><br>
-続いてhtmlの下の方にある、<br>
-<span class="look">Copyright&copy; Macarron Shop All Rights Reserved.</span><br>
-の部分もあなたのサイト名に変更します。</p>
-<p><strong class="color1">metaタグを変更しましょう。</strong><br>
-htmlソースが見える状態にしてmetaタグを変更しましょう。</p>
-<p>ソースの上の方に、<br>
-<span class="look">content=&quot;ここにサイト説明を入れます&quot;</span><br>
-という部分がありますので、テキストをサイトの説明文に入れ替えます。検索結果の文面に使われる場合もありますので、見た人が来訪したくなるような説明文を簡潔に書きましょう。</p>
-<p>続いて、その下の行の<br>
-<span class="look">content=&quot;キーワード１,キーワード２,～～～&quot;</span><br>
-も設定します。ここはサイトに関係のあるキーワードを入れる箇所です。10個前後ぐらいあれば充分です。キーワード間はカンマ「,」で区切ります。</p>
-<p><strong class="color1">h1ロゴのaltタグも変更しましょう。</strong><br>
-  html側に、<br>
-<span class="look">alt=&quot;Macarron Shop&quot;</span><br>
-となっている箇所があるので、この部分もあなたのサイト名に変更しましょう。</p>
-
-<h3>左上にある白いロゴ画像について</h3>
-<p>文字なしの土台画像がbaseフォルダに入っていますのでそれにサイト名をのせてimagesフォルダに上書きして下さい。画像の大きさは自由に変更してもらっても構いませんがある程度大きくしておいた方が高解像度の端末で鮮明に見えます。</p>
-
-<h3>ロゴ下の色のついた大見出し</h3>
-<p>こちらは、文字は直接htmlに記入されていますので必要に応じて入れ替えて下さい。<br>
-あまり文字数が長いと飛び出るのでコンパクトにして下さい。</p>
-
-<h3>トップページのスライドショーについて</h3>
-<p>cssフォルダのstyle-top.cssとkeyframes.cssで設定されています。</p>
-<p><strong class="color1">css3に対応した環境(IEなら10以上)でしか動作しません。</strong><br>
-古いブラウザでは固定画像になります。<br>
-古いブラウザ用の指定は、index.htmlのhead内の、<br>
-<span class="look">.slide0,.slide2,.slide3 {display:none;}</span><br>
-部分です。<br>
-この場合、slide1画像のみが表示されます。（上のcssは、slide0,slide2,slide3を非表示にする設定）</p>
-<p><strong class="color1">画像を入れ替えたい場合</strong><br>
-「0.jpg」「1.jpg」「2.jpg」「3.jpg」の3枚のjpg画像を用意してimagesフォルダに上書きして下さい。</p>
-<p>拡張子が「jpeg」や「JPG」と少し違った場合にうまく表示できない可能性があるので「jpg」で統一して下さい。画像を「jpg」にできない場合はhtml側の拡張子指定を変更しても構いません。<br>
-画像の容量はできるだけ軽くして下さい。重いと初動の動きがガタつきます。<br>
-画像サイズについては、cssの背景画像（cover）なので適当で構いません。ただ、縦端末、横端末で画像がトリミングされますので、切れてもおかしくない画像を用意して下さい。</p>
-<p><strong class="color1">固定画像にしたい場合</strong><br>
-style-top.cssの冒頭にある、<br>
-<span class="look">@import url(&quot;keyframes.css&quot;);</span><br>
-を削除して下さい。<br>
-その後、index.htmlのhtml側の最後にあるスライドショー画像から、表示させたい画像以外を削除して下さい。</p>
-
-<h3>アニメーションを全てストップしたい場合</h3>
-<p>style.cssや、style-top.css冒頭にある、<br>
-<span class="look">@import url(&quot;keyframes.css&quot;);</span><br>
-を削除して下さい。<br>
-テンプレートを編集をする際に、アニメーションが邪魔な場合にも有効です。その場合は削除でなく一時的にコメントアウトして適用されないようにして下さい。</p>
-
-<h3>リストタグを使いたい場合の注意点</h3>
-<p>そのままではリストマークが出ませんので、リストタグを使う場合は以下のようなスタイルを追加して下さい。</p>
-<p>&lt;ul <span class="color1">class=&quot;disc&quot;</span>&gt;<br>
-&lt;li&gt;リストタグ&lt;/li&gt;<br>
-&lt;li&gt;リストタグ&lt;/li&gt;<br>
-&lt;li&gt;リストタグ&lt;/li&gt;<br>
-&lt;/ul&gt;
-</p>
-<p>↓出力例</p>
-<ul class="disc">
-<li>リストタグ</li>
-<li>リストタグ</li>
-<li>リストタグ</li>
-</ul>
-<ol>
-<li>olタグはそのままででます。</li>
-<li>olタグはそのままででます。</li>
-<li>olタグはそのままででます。</li>
-<li>olタグはそのままででます。</li>
-</ol>
-
-<h3>ページ最上部にある装飾用写真の説明</h3>
-<p>このページのように、ページによって別画像にしたい場合、まずは背景用画像を準備し（当ページならbg2.jpg）imagesフォルダに入れます。<br>
-次に、cssフォルダのstyle.cssの冒頭の方にある、<br>
-<span class="look">body.bg2 {background-image: url(../images/bg2.jpg);}</span><br>
-の行のように画像を上書きするスタイルを追加して下さい。<br>
-追加したら、あとはhtml側のbodyタグにこれを指定すればOKです。<br>
-<span class="look">&lt;body <span class="color1">class=&quot;bg2&quot;</span>&gt;</span><br>
-補足：cssファイルのドット(.)と、htmlファイルのclassは同じ意味です。単にcssファイルとhtmlにより表記方法が異なるだけです。</p>
-<p>bodyタグにスタイル指定がなければ、このページ「以外」のように背景画像(bg.jpg)が共通で適用されます。</p>
+<h2>お友達紹介</h2>
+<impact-embed widget="p/47465/w/websiteReferralWidget"><div>Loading...</div></impact-embed>
 
 <h3>スクロール中に出る「↑」アイコンについて</h3>
 <p>fixmenu_pagetop.jsで動作の制御を、cssフォルダのstyle.css内の<br>
