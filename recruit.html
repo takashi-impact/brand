@@ -5,84 +5,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.9.0/jsrsasign-all-min.js"></script>
 <script type="text/javascript"> (function(a,b,c,d,e,f,g){e['ire_o']=c;e[c]=e[c]||function(){(e[c].a=e[c].a||[]).push(arguments)};f=d.createElement(b);g=d.getElementsByTagName(b)[0];f.async=1;f.src=a;g.parentNode.insertBefore(f,g);})('https://impact.msademo.net/A6108791-de00-46db-9400-014533654bf765535.js','script','ire',document,window); ire('identify', {customerid: '' /*INSERT CUSTOMER ID*/, customeremail: '' /*INSERT SHA1 HASHED CUSTOMER EMAIL*/});
 </script>
-<script>
-    function generateImpactJWT(userId, accountSid, authToken) {
-        // Header
-        const oHeader = { alg: 'HS256', typ: 'JWT' };
-        
-        // Payload
-        const oPayload = {
-            sub: userId,        // User ID (customeridと同じ値にする必要があります)
-            iss: accountSid,    // Impact Account SID
-            iat: Math.floor(Date.now() / 1000) // 発行時刻
-        };
-
-        // 署名 (HS256)
-        const sHeader = JSON.stringify(oHeader);
-        const sPayload = JSON.stringify(oPayload);
-        
-        // jsrsasignを使って署名付きトークンを生成
-        return KJUR.jws.JWS.sign("HS256", sHeader, sPayload, authToken);
-    };
-
-    // 1. When UTT is ready, run the following function.
-    window.impactOnReady = function () {
-      // 2. Make the request to retrieve referral information from the dropped cookie
-      //  Cookies are dropped after a user clicks on a sharelink
-      //  This cookie includes important referral information such as the referrer's referral code
-      //  To read more on our referral cookies see https://integrations.impact.com/impact-brand/docs/tracking-cookies-for-advocate-programs
-      impact
-      .api()
-      .referralCookie()
-      .then(function (response) {
-        // 3. Adding a short wait helps to insure that the value is properly set in the form
-        const waitForElement = setInterval(function () {
-    
-          // 4. Retrieve the element you want to auto-fill the referral code into from the DOM.
-          const el = document.getElementsByName("impact_referralcookies");
-    
-          if (el.length) {
-            clearInterval(waitForElement);
-    
-            // 5. Set the value of the form field to be the participants referral cookie
-            el[0].value = response.encodedCookie;
-          }
-        }, 100);
-      });
-      
-      const IMPACT_ACCOUNT_SID = 'IR37qk9K6nbZ6108791wKWEmgxr9v65535'; // ImpactのアカウントSID
-      const IMPACT_AUTH_TOKEN = 'cpAPoXp.kTrx.x2ducxjbgtskaE3Hdys';   // ImpactのAuth Token (秘密鍵)
-      
-      const id = `user${new Date().getTime()}@example.com`; // Unique ID based on timestamp
-      const accountId = `user${new Date().getTime()}@example.com`; // Unique Account ID based on timestamp
-      const email = `user${new Date().getTime()}@example.com`; // Unique email based on timestamp
-      
-      const myJwt = generateImpactJWT(id, IMPACT_ACCOUNT_SID, IMPACT_AUTH_TOKEN);
-
-
-      const userConfig = {
-          // 2b. Add details about your user
-          //  This must include id and account id but other fields such as email, first name, locale or even custom fields can be included
-          //  For more details and a list of user fields see https://integrations.impact.com/impact-brand/docs/install-the-utt
-        
-          user: {                               
-            // SHA1 hashed emails can also be used for id and accountId fields
-            id: id,                      
-            accountId: accountId,       
-            email: email,               
-          },
-          jwt: myJwt 
-      };
-      // 3. Make the request to upsert your user.
-      impact.api().upsertUser(userConfig).then(function(response) {
-          // The widget API automatically inserts the HTML for your widget into your page via an iFrame
-          // However if needed, you can retrieve details about the upserted user and the widget HTML through this function response
-          const user = response.user;
-      }).catch(function(error){
-          console.log(error);
-      });
-    };
-  </script>
+<script> 
+  window.impactToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IklSaXdYWXp6dHI0YzYxMDg3OTFUcDdoOG4yS1ppNjU1MzUifQ.eyJ1c2VyIjp7ImlkIjoidGVzdHVzZXIiLCJhY2NvdW50SWQiOiJ0ZXN0dXNlciIsImVtYWlsIjoidGVzdHVzZXJAZXhhbXBsZS5jb20ifX0.1W2IZglOwM9t_YhP0gBy7m85Bb36MVZUD7EkiOLFCgo";
+</script> 
 <!-- /Advocate -->
       
 
